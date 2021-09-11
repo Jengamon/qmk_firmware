@@ -70,6 +70,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     }
 }
 
+#ifdef NKRO_ENABLE
+#include "keycode_config.h"
+#endif // NKRO_ENABLE
+
 #ifdef RGB_MATRIX_ENABLE
 void rgb_matrix_indicators_user(void) {
     if(host_keyboard_led_state().caps_lock) {
@@ -81,6 +85,15 @@ void rgb_matrix_indicators_user(void) {
     }
     // rgb_matrix_set_color(67, 255, 0, 0);
     // rgb_matrix_set_color(68, 255, 0, 0);
+    #ifdef NKRO_ENABLE
+    if(keymap_config.nkro) {
+        HSV hsv = rgb_matrix_get_hsv();
+        hsv.h += (255/3);
+        hsv.h %= 256;
+        RGB rgb = hsv_to_rgb(hsv);
+        rgb_matrix_set_color(38, rgb.r, rgb.g, rgb.b); //  Caps Lock -> rotated color
+    }
+    #endif // NKRO_ENABLE
 }
 #endif // RGB_MATRIX_ENABLE
 
