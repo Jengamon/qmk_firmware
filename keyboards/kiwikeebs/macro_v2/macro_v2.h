@@ -1,4 +1,4 @@
-/* Copyright 2021 yfuku
+/* Copyright 2020 KiwiKeebs
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,13 +26,10 @@
  * The second converts the arguments into a two-dimensional array which
  * represents the switch matrix.
  */
-
 #define LAYOUT( \
-    k012, k013, k014, k015, \
-    k008, k009, k010, k011, \
-    k000, k001, k002, k003, \
-    k004, k005, k006, k007 \
-) \
-{ \
-    {k000, k001, k002, k003, k004, k005, k006, k007, k008, k009, k010, k011, k012, k013, k014, k015 } \
+    k00, k01, k02, \
+    k03, k04, k05, k06    \
+) { \
+    { k00, k01, k02, KC_NO }, \
+    { k03, k04, k05, k06 }  \
 }
