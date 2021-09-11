@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 
 #include "raw_hid.h"
+#include "keycode_config.h"
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -70,27 +71,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     }
 }
 
-#ifdef NKRO_ENABLE
-#include "keycode_config.h"
-#endif // NKRO_ENABLE
-
 #ifdef RGB_MATRIX_ENABLE
 void rgb_matrix_indicators_user(void) {
+    HSV hsv = rgb_matrix_get_hsv();
+    hsv.h += (255/3);
+    hsv.h %= 256;
+    RGB rgb = hsv_to_rgb(hsv);
     if(host_keyboard_led_state().caps_lock) {
-        HSV hsv = rgb_matrix_get_hsv();
-        hsv.h += (255/3);
-        hsv.h %= 256;
-        RGB rgb = hsv_to_rgb(hsv);
         rgb_matrix_set_color(3, rgb.r, rgb.g, rgb.b); //  Caps Lock -> rotated color
     }
     // rgb_matrix_set_color(67, 255, 0, 0);
     // rgb_matrix_set_color(68, 255, 0, 0);
     #ifdef NKRO_ENABLE
     if(keymap_config.nkro) {
-        HSV hsv = rgb_matrix_get_hsv();
-        hsv.h += (255/3);
-        hsv.h %= 256;
-        RGB rgb = hsv_to_rgb(hsv);
         rgb_matrix_set_color(38, rgb.r, rgb.g, rgb.b); //  Caps Lock -> rotated color
     }
     #endif // NKRO_ENABLE
