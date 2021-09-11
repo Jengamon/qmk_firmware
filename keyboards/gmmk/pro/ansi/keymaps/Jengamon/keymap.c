@@ -16,6 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
+#include "raw_hid.h"
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -60,7 +62,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-void rgb_matrix_indicators_kb(void) {
+// Keypress pre-processing
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+    switch(keycode) {
+        default:
+            return true;
+    }
+}
+
+#ifdef RGB_MATRIX_ENABLE
+void rgb_matrix_indicators_user(void) {
     if(host_keyboard_led_state().caps_lock) {
         HSV hsv = rgb_matrix_get_hsv();
         hsv.h += (255/3);
@@ -68,7 +79,10 @@ void rgb_matrix_indicators_kb(void) {
         RGB rgb = hsv_to_rgb(hsv);
         rgb_matrix_set_color(3, rgb.r, rgb.g, rgb.b); //  Caps Lock -> rotated color
     }
+    // rgb_matrix_set_color(67, 255, 0, 0);
+    // rgb_matrix_set_color(68, 255, 0, 0);
 }
+#endif // RGB_MATRIX_ENABLE
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
@@ -80,3 +94,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return true;
 }
 #endif // ENCODER_ENABLE
+
+#ifdef RAW_ENABLE
+void raw_hid_receive(uint8_t* data, uint8_t length) {
+    // TODO: communicate with the device to configure settings and stuff, maybe switch keymaps and other things.
+}
+#endif // RAW_ENABLE
