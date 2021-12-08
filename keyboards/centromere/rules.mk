@@ -16,12 +16,9 @@ EXTRAKEY_ENABLE = yes	# Audio control and System control
 CONSOLE_ENABLE = yes	# Console for debug
 COMMAND_ENABLE = yes   # Commands for debug and configuration
 CUSTOM_MATRIX = yes    # Remote matrix from the wireless bridge
-# Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
-SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes		# USB Nkey Rollover
 BACKLIGHT_ENABLE = no  # Enable keyboard backlight functionality
 UNICODE_ENABLE = yes 		# Unicode
-BLUETOOTH_ENABLE = no # Enable Bluetooth with the Adafruit EZ-Key HID
 
 # # project specific files
 SRC += matrix.c serial_uart.c
